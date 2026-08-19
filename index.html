@@ -4,152 +4,312 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Зеркало данных — Междисциплинарное занятие по профориентации</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        fontFamily: {
-          sans: ['Inter', 'sans-serif'],
-        }
-      }
-    }
-  }
-</script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-400-normal.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-600-normal.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-700-normal.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-800-normal.css">
 <style>
-  * { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-  body { background: #0f172a; color: #1a1a1a; }
-  .gradient-hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); }
-  .gradient-text { background: linear-gradient(135deg, #667eea, #f093fb); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  .card { background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); transition: all 0.3s; }
-  .card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
-  .material-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); transition: all 0.3s; border: 2px solid transparent; }
-  .material-card:hover { border-color: #764ba2; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(118, 75, 162, 0.15); }
-  .stage-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-left: 4px solid; }
-  .nav-link { transition: all 0.2s; padding: 8px 16px; border-radius: 10px; color: rgba(255,255,255,0.8); font-size: 14px; font-weight: 600; }
-  .nav-link:hover { background: rgba(255,255,255,0.15); color: white; }
-  .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; }
-  .check-icon { flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #059669); color: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
-  .hero-pattern { background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(240, 147, 251, 0.15) 0%, transparent 50%); }
-  @media (max-width: 768px) { .nav-desktop { display: none; } }
+  /* === 1. СБРОС И БАЗОВЫЕ НАСТРОЙКИ === */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #0f172a;
+    color: #1a1a1a;
+    line-height: 1.6;
+  }
+
+  /* === 2. ПЕРЕМЕННЫЕ ЦВЕТОВ === */
+  :root {
+    --bg-dark: #0f172a;
+    --bg-light: #f8fafc;
+    --white: #ffffff;
+    --text-main: #1a1a1a;
+    --text-muted: #4b5563;
+    --primary: #7c3aed;
+    --primary-light: #ede9fe;
+    --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 10px 40px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
+  }
+
+  /* === 3. УТИЛИТЫ И ЛЕЙАУТ === */
+  .container { max-width: 1152px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 80px 0; }
+  .bg-light { background-color: var(--bg-light); }
+  .bg-white { background-color: var(--white); }
+  .text-center { text-align: center; }
+  .flex { display: flex; }
+  .flex-wrap { flex-wrap: wrap; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .gap-2 { gap: 8px; }
+  .gap-4 { gap: 16px; }
+  .gap-6 { gap: 24px; }
+  .gap-8 { gap: 32px; }
+  .mb-4 { margin-bottom: 16px; }
+  .mb-6 { margin-bottom: 24px; }
+  .mb-8 { margin-bottom: 32px; }
+  .mb-12 { margin-bottom: 48px; }
+  .mt-8 { margin-top: 32px; }
+  .mt-10 { margin-top: 40px; }
+
+  /* === 4. ТИПОГРАФИКА === */
+  h1 { font-size: 3rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+  h2 { font-size: 2.5rem; font-weight: 800; line-height: 1.2; color: var(--text-main); }
+  h3 { font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+  p { color: var(--text-muted); }
+  .text-white { color: white; }
+  .text-white-80 { color: rgba(255, 255, 255, 0.8); }
+  .text-white-90 { color: rgba(255, 255, 255, 0.9); }
+  .text-sm { font-size: 0.875rem; }
+  .text-xl { font-size: 1.25rem; }
+  .text-2xl { font-size: 1.5rem; }
+  .font-bold { font-weight: 700; }
+  .font-semibold { font-weight: 600; }
+
+  /* === 5. КОМПОНЕНТЫ === */
+  /* Навигация */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    background: rgba(15, 23, 42, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; max-width: 1152px; margin: 0 auto; }
+  .nav-logo { display: flex; align-items: center; gap: 12px; color: white; font-weight: 700; font-size: 1.1rem; text-decoration: none; }
+  .nav-logo-icon { width: 40px; height: 40px; background: var(--gradient-hero); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-link { color: rgba(255,255,255,0.8); text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 0.875rem; font-weight: 600; transition: 0.2s; }
+  .nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
+  .nav-btn { display: none; background: white; color: var(--primary); padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; transition: 0.2s; }
+  .nav-btn:hover { background: #f3f4f6; }
+
+  /* Hero секция */
+  .hero {
+    background: var(--gradient-hero);
+    padding: 140px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255,255,255,0.15) 0%, transparent 50%);
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .badge {
+    display: inline-block; padding: 6px 16px; background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(4px); border-radius: 999px; color: white;
+    font-size: 0.875rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.2);
+  }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 16px 32px; border-radius: 12px; font-weight: 700; text-decoration: none;
+    transition: all 0.2s; font-size: 1rem;
+  }
+  .btn-primary { background: white; color: var(--primary); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+  .btn-primary:hover { background: #f3f4f6; transform: translateY(-2px); }
+  .btn-outline { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(4px); }
+  .btn-outline:hover { background: rgba(255,255,255,0.25); }
+
+  /* Статистика в Hero */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 48px; }
+  .stat-card {
+    background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 16px; text-align: center;
+  }
+  .stat-num { font-size: 1.875rem; font-weight: 800; color: white; }
+  .stat-label { font-size: 0.875rem; color: rgba(255,255,255,0.8); margin-top: 4px; }
+
+  /* Карточки */
+  .card {
+    background: var(--white); border-radius: 20px; padding: 32px;
+    box-shadow: var(--shadow-md); transition: all 0.3s;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .card-bordered { border-left: 4px solid var(--primary); }
+  
+  .material-card {
+    background: var(--white); border-radius: 16px; padding: 24px;
+    box-shadow: var(--shadow-sm); border: 2px solid transparent;
+    text-decoration: none; color: inherit; display: block; transition: all 0.3s;
+  }
+  .material-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .material-icon {
+    width: 48px; height: 48px; border-radius: 12px; display: flex;
+    align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0;
+  }
+  .bg-purple-100 { background-color: #f3e8ff; }
+  .bg-green-100 { background-color: #dcfce7; }
+  .bg-blue-100 { background-color: #dbeafe; }
+  .bg-amber-100 { background-color: #fef3c7; }
+  .bg-red-100 { background-color: #fee2e2; }
+  .bg-emerald-100 { background-color: #d1fae5; }
+
+  /* Сетки */
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  
+  /* Этапы */
+  .stage-card {
+    background: var(--white); border-radius: 16px; padding: 32px;
+    box-shadow: var(--shadow-sm); border-top: 4px solid var(--primary);
+  }
+  .stage-card.indigo { border-top-color: #4f46e5; }
+  .stage-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .stage-num {
+    width: 48px; height: 48px; border-radius: 12px; background: var(--primary);
+    color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.25rem;
+  }
+  .stage-num.indigo { background: #4f46e5; }
+  .stage-item { display: flex; gap: 16px; margin-bottom: 16px; }
+  .stage-dot {
+    width: 32px; height: 32px; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center; font-weight: 700; color: white; flex-shrink: 0; font-size: 0.875rem;
+  }
+  .bg-amber { background: #f59e0b; }
+  .bg-green { background: #10b981; }
+  .bg-purple { background: #8b5cf6; }
+  .bg-pink { background: #ec4899; }
+  .bg-cyan { background: #06b6d4; }
+  .bg-red { background: #ef4444; }
+  .bg-blue { background: #3b82f6; }
+
+  /* Чек-лист */
+  .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; }
+  .check-icon {
+    flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+    background: linear-gradient(135deg, #10b981, #059669); color: white;
+    display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;
+  }
+
+  /* Футер */
+  .footer { background: var(--gradient-hero); padding: 48px 0; color: white; }
+  .footer-border { border-top: 1px solid rgba(255,255,255,0.2); margin-top: 32px; padding-top: 24px; text-align: center; color: rgba(255,255,255,0.6); font-size: 0.875rem; }
+
+  /* Бейдж тега */
+  .tag {
+    display: inline-block; padding: 4px 10px; border-radius: 6px;
+    font-size: 0.75rem; font-weight: 700;
+  }
+  .tag-amber { background: #fef3c7; color: #92400e; }
+  .tag-green { background: #dcfce7; color: #166534; }
+  .tag-purple { background: #f3e8ff; color: #6b21a8; }
+  .tag-pink { background: #fce7f3; color: #9d174d; }
+  .tag-cyan { background: #cffafe; color: #155e75; }
+  .tag-red { background: #fee2e2; color: #991b1b; }
+  .tag-blue { background: #dbeafe; color: #1e40af; }
+
+  /* === 6. АДАПТИВНОСТЬ (МОБИЛЬНЫЕ УСТРОЙСТВА) === */
+  @media (max-width: 1024px) {
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    h1 { font-size: 2.25rem; }
+    h2 { font-size: 1.875rem; }
+    .nav-links, .nav-btn { display: none; } /* Упрощаем меню на мобильном */
+    .grid-2, .grid-3, .stats-grid { grid-template-columns: 1fr; }
+    .section { padding: 48px 0; }
+    .hero { padding: 100px 0 48px; }
+    .flex-wrap-mobile { flex-direction: column; align-items: flex-start; }
+  }
 </style>
 </head>
 <body>
 
 <!-- НАВИГАЦИЯ -->
-<nav class="fixed top-0 left-0 right-0 z-50 glass" style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(20px);">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl gradient-hero flex items-center justify-center text-white font-bold text-lg">🎓</div>
-      <div class="text-white font-bold">Зеркало данных</div>
-    </div>
-    <div class="nav-desktop flex items-center gap-1">
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">🎓</div>
+      <span>Зеркало данных</span>
+    </a>
+    <div class="nav-links">
       <a href="#problem" class="nav-link">Проблема</a>
       <a href="#product" class="nav-link">Продукт</a>
       <a href="#stages" class="nav-link">Этапы</a>
       <a href="#materials" class="nav-link">Материалы</a>
       <a href="#for-teacher" class="nav-link">Для учителя</a>
     </div>
-    <a href="#materials" class="hidden md:inline-block px-4 py-2 bg-white text-purple-700 rounded-lg font-semibold text-sm hover:bg-gray-100 transition-all">
-      Все материалы
-    </a>
+    <a href="#materials" class="nav-btn">Все материалы</a>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="gradient-hero hero-pattern pt-32 pb-20 px-6 text-white relative overflow-hidden">
-  <div class="max-w-6xl mx-auto relative z-10">
+<section class="hero">
+  <div class="container hero-content">
     <div class="flex flex-wrap gap-2 mb-6">
-      <span class="px-4 py-1.5 bg-white/15 backdrop-blur rounded-full text-sm font-semibold">📚 9 класс</span>
-      <span class="px-4 py-1.5 bg-white/15 backdrop-blur rounded-full text-sm font-semibold">⏱ 2 × 40 минут</span>
-      <span class="px-4 py-1.5 bg-white/15 backdrop-blur rounded-full text-sm font-semibold">📊 Excel + ИИ</span>
-      <span class="px-4 py-1.5 bg-white/15 backdrop-blur rounded-full text-sm font-semibold">🎯 Профориентация</span>
+      <span class="badge">📚 9 класс</span>
+      <span class="badge">⏱ 2 × 40 минут</span>
+      <span class="badge">📊 Excel + ИИ</span>
+      <span class="badge">🎯 Профориентация</span>
     </div>
     
-    <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
-      Зеркало данных
-    </h1>
-    <p class="text-2xl md:text-3xl font-semibold text-white/90 mb-8 max-w-3xl">
+    <h1 class="text-white mb-6">Зеркало данных</h1>
+    <p class="text-xl text-white-90 mb-8" style="max-width: 800px;">
       Междисциплинарное занятие по профориентации для 9 класса
     </p>
-    <p class="text-xl text-white/80 mb-12 max-w-4xl">
+    <p class="text-white-80 mb-12" style="max-width: 800px; font-size: 1.1rem;">
       Ученики собирают данные о своей учебной деятельности, строят диаграммы в Excel и анализируют их с помощью ИИ — чтобы осознанно выбрать образовательную траекторию.
     </p>
     
     <div class="flex flex-wrap gap-4 mb-12">
-      <a href="#materials" class="px-8 py-4 bg-white text-purple-700 rounded-xl font-bold hover:bg-gray-100 transition-all shadow-xl">
-        📥 Все материалы
-      </a>
-      <a href="#problem" class="px-8 py-4 bg-white/15 backdrop-blur text-white rounded-xl font-bold hover:bg-white/25 transition-all border border-white/30">
-        Узнать больше →
-      </a>
+      <a href="#materials" class="btn btn-primary">📥 Все материалы</a>
+      <a href="#problem" class="btn btn-outline">Узнать больше →</a>
     </div>
     
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl">
-      <div class="glass rounded-xl p-4">
-        <div class="text-3xl font-extrabold">7</div>
-        <div class="text-sm text-white/80">блоков рабочего листа</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num">7</div>
+        <div class="stat-label">блоков рабочего листа</div>
       </div>
-      <div class="glass rounded-xl p-4">
-        <div class="text-3xl font-extrabold">4</div>
-        <div class="text-sm text-white/80">типа диаграмм в Excel</div>
+      <div class="stat-card">
+        <div class="stat-num">4</div>
+        <div class="stat-label">типа диаграмм в Excel</div>
       </div>
-      <div class="glass rounded-xl p-4">
-        <div class="text-3xl font-extrabold">2</div>
-        <div class="text-sm text-white/80">занятия по 40 минут</div>
+      <div class="stat-card">
+        <div class="stat-num">2</div>
+        <div class="stat-label">занятия по 40 минут</div>
       </div>
-      <div class="glass rounded-xl p-4">
-        <div class="text-3xl font-extrabold">3</div>
-        <div class="text-sm text-white/80">предмета-партнёра</div>
+      <div class="stat-card">
+        <div class="stat-num">3</div>
+        <div class="stat-label">предмета-партнёра</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ПРОБЛЕМА -->
-<section id="problem" class="py-20 px-6 bg-slate-50">
-  <div class="max-w-6xl mx-auto">
+<section id="problem" class="section bg-light">
+  <div class="container">
     <div class="text-center mb-12">
-      <div class="inline-block px-4 py-1.5 bg-red-100 text-red-700 rounded-full text-sm font-bold mb-4">ПРОБЛЕМА</div>
-      <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-        Ученики выбирают путь вслепую
-      </h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+      <div class="tag tag-red mb-4" style="font-size: 0.875rem; padding: 6px 16px;">ПРОБЛЕМА</div>
+      <h2 class="mb-4">Ученики выбирают путь вслепую</h2>
+      <p class="text-xl" style="max-width: 800px; margin: 0 auto;">
         9 класс — первое серьёзное решение. Но у ученика нет картины собственных результатов за 9 лет учёбы.
       </p>
     </div>
     
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="card p-6">
-        <div class="text-4xl mb-3">😵</div>
-        <h3 class="font-bold text-lg mb-2 text-gray-900">Выбор вслепую</h3>
-        <p class="text-gray-600 text-sm leading-relaxed">
-          Ученик не может ответить на вопрос «в чём я реально силён?» — у него нет перед глазами картины собственных результатов.
-        </p>
+    <div class="grid-3">
+      <div class="card">
+        <div style="font-size: 2.5rem; margin-bottom: 16px;">😵</div>
+        <h3 class="mb-4">Выбор вслепую</h3>
+        <p class="text-sm">Ученик не может ответить на вопрос «в чём я реально силён?» — у него нет перед глазами картины собственных результатов.</p>
       </div>
-      <div class="card p-6">
-        <div class="text-4xl mb-3">🎲</div>
-        <h3 class="font-bold text-lg mb-2 text-gray-900">Давление и случайность</h3>
-        <p class="text-gray-600 text-sm leading-relaxed">
-          Решение принимается под давлением родителей, по совету друзей или случайно — «куда дали бюджет», «куда друзья».
-        </p>
+      <div class="card">
+        <div style="font-size: 2.5rem; margin-bottom: 16px;">🎲</div>
+        <h3 class="mb-4">Давление и случайность</h3>
+        <p class="text-sm">Решение принимается под давлением родителей, по совету друзей или случайно — «куда дали бюджет», «куда друзья».</p>
       </div>
-      <div class="card p-6">
-        <div class="text-4xl mb-3">⚠️</div>
-        <h3 class="font-bold text-lg mb-2 text-gray-900">Тесты не работают</h3>
-        <p class="text-gray-600 text-sm leading-relaxed">
-          Тесты Голланда и Климова дают общие рекомендации, но не опираются на реальные достижения ученика — оценки, победы, проекты.
-        </p>
+      <div class="card">
+        <div style="font-size: 2.5rem; margin-bottom: 16px;">⚠️</div>
+        <h3 class="mb-4">Тесты не работают</h3>
+        <p class="text-sm">Тесты Голланда и Климова дают общие рекомендации, но не опираются на реальные достижения ученика — оценки, победы, проекты.</p>
       </div>
     </div>
     
-    <div class="mt-10 card p-8 border-l-4 border-purple-600">
-      <div class="text-sm font-bold text-purple-600 mb-2 tracking-wider">ПРОЕКТНЫЙ ВОПРОС</div>
-      <div class="text-2xl font-bold text-gray-900 leading-snug">
+    <div class="card card-bordered mt-10" style="padding: 32px;">
+      <div class="text-sm font-bold mb-2" style="color: var(--primary); letter-spacing: 0.05em;">ПРОЕКТНЫЙ ВОПРОС</div>
+      <div class="text-2xl font-bold" style="color: var(--text-main); line-height: 1.3;">
         Как собрать и визуализировать данные об учебной деятельности ученика так, чтобы помочь ему сделать осознанный выбор образовательной траектории?
       </div>
     </div>
@@ -157,82 +317,80 @@
 </section>
 
 <!-- ПРОДУКТ -->
-<section id="product" class="py-20 px-6 bg-white">
-  <div class="max-w-6xl mx-auto">
+<section id="product" class="section bg-white">
+  <div class="container">
     <div class="text-center mb-12">
-      <div class="inline-block px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-bold mb-4">ПРЕДМЕТ РЕЗУЛЬТАТА</div>
-      <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-        Что получает ученик
-      </h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+      <div class="tag tag-green mb-4" style="font-size: 0.875rem; padding: 6px 16px;">ПРЕДМЕТ РЕЗУЛЬТАТА</div>
+      <h2 class="mb-4">Что получает ученик</h2>
+      <p class="text-xl" style="max-width: 800px; margin: 0 auto;">
         Персональный цифровой профиль — работающий инструмент на реальных данных самого ученика.
       </p>
     </div>
     
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="card p-8">
-        <h3 class="font-bold text-xl mb-4 text-gray-900">📦 Из чего состоит продукт</h3>
-        <div class="space-y-3">
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="mb-6" style="font-size: 1.5rem;">📦 Из чего состоит продукт</h3>
+        <div>
           <div class="check-item">
             <div class="check-icon">✓</div>
             <div>
-              <div class="font-semibold text-gray-900">Заполненный рабочий лист</div>
-              <div class="text-sm text-gray-600">7 блоков с данными, анализом и выводами</div>
+              <div class="font-semibold">Заполненный рабочий лист</div>
+              <div class="text-sm text-muted">7 блоков с данными, анализом и выводами</div>
             </div>
           </div>
           <div class="check-item">
             <div class="check-icon">✓</div>
             <div>
-              <div class="font-semibold text-gray-900">4 диаграммы из Excel</div>
-              <div class="text-sm text-gray-600">Столбчатая, радарная, круговая, кольцевая — с подписями</div>
+              <div class="font-semibold">4 диаграммы из Excel</div>
+              <div class="text-sm text-muted">Столбчатая, радарная, круговая, кольцевая — с подписями</div>
             </div>
           </div>
           <div class="check-item">
             <div class="check-icon">✓</div>
             <div>
-              <div class="font-semibold text-gray-900">ИИ-анализ с верификацией</div>
-              <div class="text-sm text-gray-600">Лог запроса + проверка каждой профессии по источнику</div>
+              <div class="font-semibold">ИИ-анализ с верификацией</div>
+              <div class="text-sm text-muted">Лог запроса + проверка каждой профессии по источнику</div>
             </div>
           </div>
           <div class="check-item">
             <div class="check-icon">✓</div>
             <div>
-              <div class="font-semibold text-gray-900">Обоснование траектории</div>
-              <div class="text-sm text-gray-600">Конкретный профиль / колледж + 2+ аргумента из профиля</div>
+              <div class="font-semibold">Обоснование траектории</div>
+              <div class="text-sm text-muted">Конкретный профиль / колледж + 2+ аргумента из профиля</div>
             </div>
           </div>
         </div>
       </div>
       
-      <div class="card p-8">
-        <h3 class="font-bold text-xl mb-4 text-gray-900">👥 Кому можно показать</h3>
-        <div class="space-y-3">
-          <div class="flex items-center gap-3 p-3 bg-purple-50 rounded-xl">
-            <div class="text-2xl">👨‍👩‍👧</div>
+      <div class="card">
+        <h3 class="mb-6" style="font-size: 1.5rem;">👥 Кому можно показать</h3>
+        <div>
+          <div class="flex items-center gap-4 mb-4" style="background: #faf5ff; padding: 16px; border-radius: 12px;">
+            <div style="font-size: 1.5rem;">👨‍👩‍👧</div>
             <div>
-              <div class="font-semibold text-gray-900">Родителям</div>
-              <div class="text-sm text-gray-600">вместо разговора «на глаз»</div>
+              <div class="font-semibold">Родителям</div>
+              <div class="text-sm text-muted">вместо разговора «на глаз»</div>
             </div>
           </div>
-          <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-xl">
-            <div class="text-2xl">‍🏫</div>
+          <div class="flex items-center gap-4 mb-4" style="background: #eff6ff; padding: 16px; border-radius: 12px;">
+            <div style="font-size: 1.5rem;">🧑‍🏫</div>
             <div>
-              <div class="font-semibold text-gray-900">Школьному психологу</div>
-              <div class="text-sm text-gray-600">для консультации по профилю</div>
+              <div class="font-semibold">Школьному психологу</div>
+              <div class="text-sm text-muted">для консультации по профилю</div>
             </div>
           </div>
-          <div class="flex items-center gap-3 p-3 bg-green-50 rounded-xl">
-            <div class="text-2xl">📝</div>
+          <div class="flex items-center gap-4 mb-4" style="background: #f0fdf4; padding: 16px; border-radius: 12px;">
+            <div style="font-size: 1.5rem;">📝</div>
             <div>
-              <div class="font-semibold text-gray-900">В приёмную комиссию</div>
-              <div class="text-sm text-gray-600">как обоснование выбора профиля / колледжа</div>
+              <div class="font-semibold">В приёмную комиссию</div>
+              <div class="text-sm text-muted">как обоснование выбора профиля / колледжа</div>
             </div>
           </div>
-          <div class="flex items-center gap-3 p-3 bg-amber-50 rounded-xl">
-            <div class="text-2xl">📊</div>
+          <div class="flex items-center gap-4" style="background: #fffbeb; padding: 16px; border-radius: 12px;">
+            <div style="font-size: 1.5rem;">📊</div>
             <div>
-              <div class="font-semibold text-gray-900">В портфолио 10–11 классов</div>
-              <div class="text-sm text-gray-600">для дополнения и развития</div>
+              <div class="font-semibold">В портфолио 10–11 классов</div>
+              <div class="text-sm text-muted">для дополнения и развития</div>
             </div>
           </div>
         </div>
@@ -242,128 +400,120 @@
 </section>
 
 <!-- ЭТАПЫ -->
-<section id="stages" class="py-20 px-6 bg-slate-50">
-  <div class="max-w-6xl mx-auto">
+<section id="stages" class="section bg-light">
+  <div class="container">
     <div class="text-center mb-12">
-      <div class="inline-block px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-bold mb-4">СЦЕНАРИЙ</div>
-      <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-        2 занятия × 40 минут
-      </h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+      <div class="tag tag-blue mb-4" style="font-size: 0.875rem; padding: 6px 16px;">СЦЕНАРИЙ</div>
+      <h2 class="mb-4">2 занятия × 40 минут</h2>
+      <p class="text-xl" style="max-width: 800px; margin: 0 auto;">
         Таймлайн глазами учеников: от гипотезы до защиты
       </p>
     </div>
     
-    <div class="grid md:grid-cols-2 gap-8">
+    <div class="grid-2">
       <!-- Занятие 1 -->
-      <div class="card p-8 border-t-4 border-purple-600">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-12 h-12 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold">1</div>
+      <div class="stage-card">
+        <div class="stage-header">
+          <div class="stage-num">1</div>
           <div>
-            <div class="font-bold text-xl text-gray-900">Занятие 1</div>
-            <div class="text-sm text-gray-500">Сбор данных и визуализация</div>
+            <div class="font-bold text-xl">Занятие 1</div>
+            <div class="text-sm text-muted">Сбор данных и визуализация</div>
           </div>
         </div>
         
-        <div class="space-y-4">
-          <div class="flex gap-4">
-            <div class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold flex-shrink-0">1</div>
+        <div>
+          <div class="stage-item">
+            <div class="stage-dot bg-amber">1</div>
             <div class="flex-1">
               <div class="flex items-center gap-2 mb-1">
-                <span class="font-bold text-gray-900">Погружение</span>
-                <span class="text-xs px-2 py-0.5 bg-amber-100 text-amber-700 rounded font-bold">5 мин</span>
+                <span class="font-bold">Погружение</span>
+                <span class="tag tag-amber">5 мин</span>
               </div>
-              <div class="text-sm text-gray-600">Сравнивают портреты, фиксируют гипотезу</div>
+              <div class="text-sm text-muted">Сравнивают портреты, фиксируют гипотезу</div>
             </div>
           </div>
-          
-          <div class="flex gap-4">
-            <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-bold flex-shrink-0">2</div>
+          <div class="stage-item">
+            <div class="stage-dot bg-green">2</div>
             <div class="flex-1">
               <div class="flex items-center gap-2 mb-1">
-                <span class="font-bold text-gray-900">Сбор данных</span>
-                <span class="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded font-bold">10 мин</span>
+                <span class="font-bold">Сбор данных</span>
+                <span class="tag tag-green">10 мин</span>
               </div>
-              <div class="text-sm text-gray-600">Заполняют таблицу в Excel: оценки, достижения, навыки, интересы</div>
+              <div class="text-sm text-muted">Заполняют таблицу в Excel: оценки, достижения, навыки, интересы</div>
             </div>
           </div>
-          
-          <div class="flex gap-4">
-            <div class="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold flex-shrink-0">3</div>
+          <div class="stage-item">
+            <div class="stage-dot bg-purple">3</div>
             <div class="flex-1">
               <div class="flex items-center gap-2 mb-1">
-                <span class="font-bold text-gray-900">Визуализация</span>
-                <span class="text-xs px-2 py-0.5 bg-purple-100 text-purple-700 rounded font-bold">20 мин</span>
+                <span class="font-bold">Визуализация</span>
+                <span class="tag tag-purple">20 мин</span>
               </div>
-              <div class="text-sm text-gray-600">Строят 4 диаграммы в Excel, вставляют в лист</div>
+              <div class="text-sm text-muted">Строят 4 диаграммы в Excel, вставляют в лист</div>
             </div>
           </div>
-          
-          <div class="flex gap-4">
-            <div class="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center font-bold flex-shrink-0">4</div>
+          <div class="stage-item">
+            <div class="stage-dot bg-pink">4</div>
             <div class="flex-1">
               <div class="flex items-center gap-2 mb-1">
-                <span class="font-bold text-gray-900">Первичный анализ</span>
-                <span class="text-xs px-2 py-0.5 bg-pink-100 text-pink-700 rounded font-bold">5 мин</span>
+                <span class="font-bold">Первичный анализ</span>
+                <span class="tag tag-pink">5 мин</span>
               </div>
-              <div class="text-sm text-gray-600">Фиксируют первые наблюдения по диаграммам</div>
+              <div class="text-sm text-muted">Фиксируют первые наблюдения по диаграммам</div>
             </div>
           </div>
         </div>
       </div>
       
       <!-- Занятие 2 -->
-      <div class="card p-8 border-t-4 border-indigo-600">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-12 h-12 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold">2</div>
+      <div class="stage-card indigo">
+        <div class="stage-header">
+          <div class="stage-num indigo">2</div>
           <div>
-            <div class="font-bold text-xl text-gray-900">Занятие 2</div>
-            <div class="text-sm text-gray-500">Анализ через ИИ и защита</div>
+            <div class="font-bold text-xl">Занятие 2</div>
+            <div class="text-sm text-muted">Анализ через ИИ и защита</div>
           </div>
         </div>
         
-        <div class="space-y-4">
-          <div class="flex gap-4">
-            <div class="w-8 h-8 rounded-full bg-cyan-500 text-white flex items-center justify-center font-bold flex-shrink-0">1</div>
+        <div>
+          <div class="stage-item">
+            <div class="stage-dot bg-cyan">1</div>
             <div class="flex-1">
               <div class="flex items-center gap-2 mb-1">
-                <span class="font-bold text-gray-900">Анализ через ИИ</span>
-                <span class="text-xs px-2 py-0.5 bg-cyan-100 text-cyan-700 rounded font-bold">10 мин</span>
+                <span class="font-bold">Анализ через ИИ</span>
+                <span class="tag tag-cyan">10 мин</span>
               </div>
-              <div class="text-sm text-gray-600">Формулируют запрос, проверяют рекомендации по источнику</div>
+              <div class="text-sm text-muted">Формулируют запрос, проверяют рекомендации по источнику</div>
             </div>
           </div>
-          
-          <div class="flex gap-4">
-            <div class="w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center font-bold flex-shrink-0">2</div>
+          <div class="stage-item">
+            <div class="stage-dot bg-red">2</div>
             <div class="flex-1">
               <div class="flex items-center gap-2 mb-1">
-                <span class="font-bold text-gray-900">Обоснование траектории</span>
-                <span class="text-xs px-2 py-0.5 bg-red-100 text-red-700 rounded font-bold">15 мин</span>
+                <span class="font-bold">Обоснование траектории</span>
+                <span class="tag tag-red">15 мин</span>
               </div>
-              <div class="text-sm text-gray-600">Выбирают профиль / колледж, пишут обоснование, намечают 3 шага</div>
+              <div class="text-sm text-muted">Выбирают профиль / колледж, пишут обоснование, намечают 3 шага</div>
             </div>
           </div>
-          
-          <div class="flex gap-4">
-            <div class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold flex-shrink-0">3</div>
+          <div class="stage-item">
+            <div class="stage-dot bg-blue">3</div>
             <div class="flex-1">
               <div class="flex items-center gap-2 mb-1">
-                <span class="font-bold text-gray-900">Защита в парах</span>
-                <span class="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded font-bold">10 мин</span>
+                <span class="font-bold">Защита в парах</span>
+                <span class="tag tag-blue">10 мин</span>
               </div>
-              <div class="text-sm text-gray-600">Показывают профили напарнику, задают проверяющие вопросы</div>
+              <div class="text-sm text-muted">Показывают профили напарнику, задают проверяющие вопросы</div>
             </div>
           </div>
-          
-          <div class="flex gap-4">
-            <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-bold flex-shrink-0">4</div>
+          <div class="stage-item">
+            <div class="stage-dot bg-green">4</div>
             <div class="flex-1">
               <div class="flex items-center gap-2 mb-1">
-                <span class="font-bold text-gray-900">Рефлексия</span>
-                <span class="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded font-bold">5 мин</span>
+                <span class="font-bold">Рефлексия</span>
+                <span class="tag tag-green">5 мин</span>
               </div>
-              <div class="text-sm text-gray-600">Возврат к гипотезе, главный вывод, сдача листа</div>
+              <div class="text-sm text-muted">Возврат к гипотезе, главный вывод, сдача листа</div>
             </div>
           </div>
         </div>
@@ -373,204 +523,157 @@
 </section>
 
 <!-- МАТЕРИАЛЫ -->
-<section id="materials" class="py-20 px-6 bg-white">
-  <div class="max-w-6xl mx-auto">
+<section id="materials" class="section bg-white">
+  <div class="container">
     <div class="text-center mb-12">
-      <div class="inline-block px-4 py-1.5 bg-indigo-100 text-indigo-700 rounded-full text-sm font-bold mb-4">МАТЕРИАЛЫ</div>
-      <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-        Всё для проведения занятия
-      </h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+      <div class="tag" style="background: #e0e7ff; color: #3730a3; font-size: 0.875rem; padding: 6px 16px;">МАТЕРИАЛЫ</div>
+      <h2 class="mb-4">Всё для проведения занятия</h2>
+      <p class="text-xl" style="max-width: 800px; margin: 0 auto;">
         Все материалы готовы к применению. Скачайте и проведите занятие.
       </p>
     </div>
     
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Паспорт -->
-      <a href="https://docs.google.com/document/d/1JIh2uJ-8IOHYdZh5K29SqFJ-0wwSY8juEOd8o3VCyak/edit?usp=sharing" target="_blank" class="material-card block">
-        <div class="flex items-center gap-3 mb-4">
-          <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-2xl">📋</div>
-          <div class="flex-1">
-            <div class="font-bold text-gray-900">Паспорт методической разработки</div>
-            <div class="text-xs text-gray-500">Google Docs</div>
+    <div class="grid-3">
+      <a href="https://docs.google.com/document/d/1JIh2uJ-8IOHYdZh5K29SqFJ-0wwSY8juEOd8o3VCyak/edit?usp=sharing" target="_blank" class="material-card">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="material-icon bg-purple-100">📋</div>
+          <div>
+            <div class="font-bold">Паспорт методической разработки</div>
+            <div class="text-sm text-muted">Google Docs</div>
           </div>
         </div>
-        <p class="text-sm text-gray-600 mb-4">Полное описание занятия: проблема, цель, сценарий, критерии оценки, КИМы</p>
-        <div class="flex items-center gap-2 text-purple-600 font-semibold text-sm">
-          <span>Открыть документ</span>
-          <span>→</span>
+        <p class="text-sm text-muted mb-4">Полное описание занятия: проблема, цель, сценарий, критерии оценки, КИМы</p>
+        <div class="flex items-center gap-2" style="color: var(--primary); font-weight: 600; font-size: 0.875rem;">
+          <span>Открыть документ</span><span>→</span>
         </div>
       </a>
       
-      <!-- Рабочий лист -->
-      <a href="https://mmmaslikov.github.io/worksheet/" target="_blank" class="material-card block">
-        <div class="flex items-center gap-3 mb-4">
-          <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-2xl">🔢</div>
-          <div class="flex-1">
-            <div class="font-bold text-gray-900">Рабочий лист ученика</div>
-            <div class="text-xs text-gray-500">Интерактивный сайт</div>
+      <a href="https://mmmaslikov.github.io/worksheet/" target="_blank" class="material-card">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="material-icon bg-green-100">🔢</div>
+          <div>
+            <div class="font-bold">Рабочий лист ученика</div>
+            <div class="text-sm text-muted">Интерактивный сайт</div>
           </div>
         </div>
-        <p class="text-sm text-gray-600 mb-4">7 блоков для заполнения: данные, диаграммы, ИИ-анализ, обоснование траектории</p>
-        <div class="flex items-center gap-2 text-green-600 font-semibold text-sm">
-          <span>Открыть рабочий лист</span>
-          <span>→</span>
+        <p class="text-sm text-muted mb-4">7 блоков для заполнения: данные, диаграммы, ИИ-анализ, обоснование траектории</p>
+        <div class="flex items-center gap-2" style="color: #16a34a; font-weight: 600; font-size: 0.875rem;">
+          <span>Открыть рабочий лист</span><span>→</span>
         </div>
       </a>
       
-      <!-- Презентация -->
-      <a href="https://mmmaslikov.github.io/datamirrorpp/" target="_blank" class="material-card block">
-        <div class="flex items-center gap-3 mb-4">
-          <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-2xl">🎨</div>
-          <div class="flex-1">
-            <div class="font-bold text-gray-900">Презентация к уроку</div>
-            <div class="text-xs text-gray-500">Интерактивный сайт</div>
+      <a href="https://mmmaslikov.github.io/datamirrorpp/" target="_blank" class="material-card">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="material-icon bg-blue-100">🎨</div>
+          <div>
+            <div class="font-bold">Презентация к уроку</div>
+            <div class="text-sm text-muted">Интерактивный сайт</div>
           </div>
         </div>
-        <p class="text-sm text-gray-600 mb-4">14 слайдов для демонстрации на занятиях: примеры, инструкции, шаблоны</p>
-        <div class="flex items-center gap-2 text-blue-600 font-semibold text-sm">
-          <span>Открыть презентацию</span>
-          <span>→</span>
+        <p class="text-sm text-muted mb-4">14 слайдов для демонстрации на занятиях: примеры, инструкции, шаблоны</p>
+        <div class="flex items-center gap-2" style="color: #2563eb; font-weight: 600; font-size: 0.875rem;">
+          <span>Открыть презентацию</span><span>→</span>
         </div>
       </a>
       
-      <!-- Тест -->
-      <a href="https://docs.google.com/document/d/1-AVVrqMH-XKLPdORmnuNjUIuAjfep3ISxjbCvcHNRO8/edit?usp=sharing" target="_blank" class="material-card block">
-        <div class="flex items-center gap-3 mb-4">
-          <div class="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center text-2xl">✅</div>
-          <div class="flex-1">
-            <div class="font-bold text-gray-900">Тест на предметное знание</div>
-            <div class="text-xs text-gray-500">Google Docs + ключи</div>
+      <a href="https://docs.google.com/document/d/1-AVVrqMH-XKLPdORmnuNjUIuAjfep3ISxjbCvcHNRO8/edit?usp=sharing" target="_blank" class="material-card">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="material-icon bg-amber-100">✅</div>
+          <div>
+            <div class="font-bold">Тест на предметное знание</div>
+            <div class="text-sm text-muted">Google Docs + ключи</div>
           </div>
         </div>
-        <p class="text-sm text-gray-600 mb-4">5 вопросов (3 закрытых + 2 открытых) с ключами для учителя</p>
-        <div class="flex items-center gap-2 text-amber-600 font-semibold text-sm">
-          <span>Открыть тест</span>
-          <span>→</span>
+        <p class="text-sm text-muted mb-4">5 вопросов (3 закрытых + 2 открытых) с ключами для учителя</p>
+        <div class="flex items-center gap-2" style="color: #d97706; font-weight: 600; font-size: 0.875rem;">
+          <span>Открыть тест</span><span>→</span>
         </div>
       </a>
       
-      <!-- Практический кейс -->
-      <a href="https://docs.google.com/document/d/1Y5pL4TYJEiWBoAq1mcYQX-9qgX8_kDvlJZNtbb-0jvI/edit?usp=sharing" target="_blank" class="material-card block">
-        <div class="flex items-center gap-3 mb-4">
-          <div class="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center text-2xl">🔍</div>
-          <div class="flex-1">
-            <div class="font-bold text-gray-900">Практический кейс</div>
-            <div class="text-xs text-gray-500">Google Docs + ключи</div>
+      <a href="https://docs.google.com/document/d/1Y5pL4TYJEiWBoAq1mcYQX-9qgX8_kDvlJZNtbb-0jvI/edit?usp=sharing" target="_blank" class="material-card">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="material-icon bg-red-100">🔍</div>
+          <div>
+            <div class="font-bold">Практический кейс</div>
+            <div class="text-sm text-muted">Google Docs + ключи</div>
           </div>
         </div>
-        <p class="text-sm text-gray-600 mb-4">«Испорченный» профиль с 5 ошибками + ключи для проверки</p>
-        <div class="flex items-center gap-2 text-red-600 font-semibold text-sm">
-          <span>Открыть кейс</span>
-          <span>→</span>
+        <p class="text-sm text-muted mb-4">«Испорченный» профиль с 5 ошибками + ключи для проверки</p>
+        <div class="flex items-center gap-2" style="color: #dc2626; font-weight: 600; font-size: 0.875rem;">
+          <span>Открыть кейс</span><span>→</span>
         </div>
       </a>
       
-      <!-- Шаблон Excel -->
-      <a href="https://docs.google.com/spreadsheets/d/1yr0F6XD5oGJ5Imrt9eOERZREXGqVlzqIbUAGrCt7mIA/edit?usp=sharing" target="_blank" class="material-card block">
-        <div class="flex items-center gap-3 mb-4">
-          <div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-2xl">📊</div>
-          <div class="flex-1">
-            <div class="font-bold text-gray-900">Шаблон Excel</div>
-            <div class="text-xs text-gray-500">Google Sheets</div>
+      <a href="https://docs.google.com/spreadsheets/d/1yr0F6XD5oGJ5Imrt9eOERZREXGqVlzqIbUAGrCt7mIA/edit?usp=sharing" target="_blank" class="material-card">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="material-icon bg-emerald-100">📊</div>
+          <div>
+            <div class="font-bold">Шаблон Excel</div>
+            <div class="text-sm text-muted">Google Sheets</div>
           </div>
         </div>
-        <p class="text-sm text-gray-600 mb-4">Заготовки под 4 типа диаграмм + таблица данных для учеников</p>
-        <div class="flex items-center gap-2 text-emerald-600 font-semibold text-sm">
-          <span>Открыть таблицу</span>
-          <span>→</span>
+        <p class="text-sm text-muted mb-4">Заготовки под 4 типа диаграмм + таблица данных для учеников</p>
+        <div class="flex items-center gap-2" style="color: #059669; font-weight: 600; font-size: 0.875rem;">
+          <span>Открыть таблицу</span><span>→</span>
         </div>
       </a> 
-
     </div>
   </div>
 </section>
 
 <!-- ДЛЯ УЧИТЕЛЯ -->
-<section id="for-teacher" class="py-20 px-6 bg-gradient-to-br from-purple-50 to-indigo-50">
-  <div class="max-w-6xl mx-auto">
+<section id="for-teacher" class="section" style="background: linear-gradient(135deg, #faf5ff 0%, #eef2ff 100%);">
+  <div class="container">
     <div class="text-center mb-12">
-      <div class="inline-block px-4 py-1.5 bg-purple-100 text-purple-700 rounded-full text-sm font-bold mb-4">ДЛЯ УЧИТЕЛЯ</div>
-      <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-        Что можно взять и использовать
-      </h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+      <div class="tag" style="background: #f3e8ff; color: #6b21a8; font-size: 0.875rem; padding: 6px 16px;">ДЛЯ УЧИТЕЛЯ</div>
+      <h2 class="mb-4">Что можно взять и использовать</h2>
+      <p class="text-xl" style="max-width: 800px; margin: 0 auto;">
         Отчуждаемость: любой учитель берёт материалы и проводит занятие без вопросов к автору
       </p>
     </div>
     
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="card p-8">
-        <h3 class="font-bold text-xl mb-4 text-gray-900">🏫 Для одного класса</h3>
-        <div class="space-y-3">
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div class="text-sm text-gray-700">Рабочий лист (интерактивный сайт или PDF)</div>
-          </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div class="text-sm text-gray-700">Презентация к уроку (14 слайдов)</div>
-          </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div class="text-sm text-gray-700">Шаблон Excel с заготовками диаграмм</div>
-          </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div class="text-sm text-gray-700">Тест и практический кейс с ключами</div>
-          </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div class="text-sm text-gray-700">Ресурс учителя: 0 часов подготовки</div>
-          </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="mb-6" style="font-size: 1.5rem;">🏫 Для одного класса</h3>
+        <div>
+          <div class="check-item"><div class="check-icon">✓</div><div class="text-sm">Рабочий лист (интерактивный сайт или PDF)</div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div class="text-sm">Презентация к уроку (14 слайдов)</div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div class="text-sm">Шаблон Excel с заготовками диаграмм</div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div class="text-sm">Тест и практический кейс с ключами</div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div class="text-sm">Ресурс учителя: 0 часов подготовки</div></div>
         </div>
       </div>
       
-      <div class="card p-8">
-        <h3 class="font-bold text-xl mb-4 text-gray-900">🏢 Для параллели / школы</h3>
-        <div class="space-y-3">
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div class="text-sm text-gray-700">Паспорт методической разработки</div>
-          </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div class="text-sm text-gray-700">Презентация для защиты (7 слайдов)</div>
-          </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div class="text-sm text-gray-700">Рубрикатор экспертизы (5 критериев × 0-3 балла)</div>
-          </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div class="text-sm text-gray-700">Чек-лист проверки заполненности рабочего листа</div>
-          </div>
-          <div class="check-item">
-            <div class="check-icon">✓</div>
-            <div class="text-sm text-gray-700">Ресурс: 30 минут на ознакомление</div>
-          </div>
+      <div class="card">
+        <h3 class="mb-6" style="font-size: 1.5rem;">🏢 Для параллели / школы</h3>
+        <div>
+          <div class="check-item"><div class="check-icon">✓</div><div class="text-sm">Паспорт методической разработки</div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div class="text-sm">Презентация для защиты (7 слайдов)</div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div class="text-sm">Рубрикатор экспертизы (5 критериев × 0-3 балла)</div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div class="text-sm">Чек-лист проверки заполненности рабочего листа</div></div>
+          <div class="check-item"><div class="check-icon">✓</div><div class="text-sm">Ресурс: 30 минут на ознакомление</div></div>
         </div>
       </div>
     </div>
     
-    <div class="mt-8 card p-8 border-l-4 border-purple-600">
-      <h3 class="font-bold text-xl mb-4 text-gray-900">⚠️ Честные риски и замены</h3>
-      <div class="grid md:grid-cols-2 gap-4">
+    <div class="card card-bordered mt-10" style="padding: 32px;">
+      <h3 class="mb-6" style="font-size: 1.5rem;">⚠️ Честные риски и замены</h3>
+      <div class="grid-2">
         <div>
-          <div class="text-sm font-semibold text-gray-800 mb-2">Нет компьютерного класса?</div>
-          <div class="text-sm text-gray-600">Бумажный рабочий лист + диаграммы в Excel дома или на следующем занятии</div>
+          <div class="font-semibold mb-2 text-sm">Нет компьютерного класса?</div>
+          <div class="text-sm text-muted">Бумажный рабочий лист + диаграммы в Excel дома или на следующем занятии</div>
         </div>
         <div>
-          <div class="text-sm font-semibold text-gray-800 mb-2">Нет интернета?</div>
-          <div class="text-sm text-gray-600">Офлайн-вариант: шаблон ИИ-запроса на бумаге, ИИ-анализ дома</div>
+          <div class="font-semibold mb-2 text-sm">Нет интернета?</div>
+          <div class="text-sm text-muted">Офлайн-вариант: шаблон ИИ-запроса на бумаге, ИИ-анализ дома</div>
         </div>
         <div>
-          <div class="text-sm font-semibold text-gray-800 mb-2">1 урок вместо 2?</div>
-          <div class="text-sm text-gray-600">Сокращаем этап защиты до 5 минут, ИИ-анализ — домашнее задание</div>
+          <div class="font-semibold mb-2 text-sm">1 урок вместо 2?</div>
+          <div class="text-sm text-muted">Сокращаем этап защиты до 5 минут, ИИ-анализ — домашнее задание</div>
         </div>
         <div>
-          <div class="text-sm font-semibold text-gray-800 mb-2">Нет Excel?</div>
-          <div class="text-sm text-gray-600">Google Sheets или LibreOffice Calc — работают аналогично</div>
+          <div class="font-semibold mb-2 text-sm">Нет Excel?</div>
+          <div class="text-sm text-muted">Google Sheets или LibreOffice Calc — работают аналогично</div>
         </div>
       </div>
     </div>
@@ -578,39 +681,39 @@
 </section>
 
 <!-- ФУТЕР -->
-<footer class="gradient-hero py-12 px-6 text-white">
-  <div class="max-w-6xl mx-auto">
-    <div class="grid md:grid-cols-3 gap-8 mb-8">
+<footer class="footer">
+  <div class="container">
+    <div class="grid-3 mb-8">
       <div>
         <div class="flex items-center gap-3 mb-4">
-          <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-xl">🎓</div>
-          <div class="font-bold text-xl">Зеркало данных</div>
+          <div style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🎓</div>
+          <div style="font-weight: 700; font-size: 1.25rem;">Зеркало данных</div>
         </div>
-        <p class="text-white/80 text-sm leading-relaxed">
+        <p class="text-sm text-white-80">
           Междисциплинарное занятие по профориентации для 9 класса. Информатика + обществознание + математика.
         </p>
       </div>
       
       <div>
-        <div class="font-bold mb-4">Предметы</div>
-        <div class="space-y-2 text-sm text-white/80">
-          <div>📊 <strong>Информатика</strong> — Excel, диаграммы, ИИ</div>
-          <div>🌍 <strong>Обществознание</strong> — профориентация, классификация Климова</div>
+        <div style="font-weight: 700; margin-bottom: 16px;">Предметы</div>
+        <div class="text-sm text-white-80">
+          <div style="margin-bottom: 8px;">📊 <strong>Информатика</strong> — Excel, диаграммы, ИИ</div>
+          <div style="margin-bottom: 8px;">🌍 <strong>Обществознание</strong> — профориентация, классификация Климова</div>
           <div>🔢 <strong>Математика</strong> — среднее арифметическое, проценты</div>
         </div>
       </div>
       
       <div>
-        <div class="font-bold mb-4">Разработчик</div>
-        <div class="space-y-2 text-sm text-white/80">
-          <div>👤 Масликов М.М.</div>
-          <div>🏫 ОК "Точка будущего" г. Иркутск</div>
+        <div style="font-weight: 700; margin-bottom: 16px;">Разработчик</div>
+        <div class="text-sm text-white-80">
+          <div style="margin-bottom: 8px;">👤 Масликов М.М.</div>
+          <div style="margin-bottom: 8px;">🏫 ОК "Точка будущего" г. Иркутск</div>
           <div>📧 mmmaslikov@gmail.com</div>
         </div>
       </div>
     </div>
     
-    <div class="border-t border-white/20 pt-6 text-center text-white/60 text-sm">
+    <div class="footer-border">
       © 2026 · «Информатика в междисциплинарных проектах»
     </div>
   </div>
